@@ -1,0 +1,15 @@
+{
+    "name": "meaningcloud/public/meaningcloud-php",
+    "description": "MeaningCloud's official PHP client",
+    "authors": [
+        {
+            "name": "MeaningCloud Support Team",
+            "email": "support@meaningcloud.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MeaningCloud\\": "src/"
+        }
+    }
+}
