@@ -6,8 +6,7 @@
 
 namespace MeaningCloud;
 
-class MCRequest
-{
+class MCRequest {
 
   /** @var  string */
   private $url;
@@ -28,8 +27,7 @@ class MCRequest
    * @param string $key license key
    * @throws \Exception if the parameters passed are incorrect
    */
-  public function __construct($url, $key)
-  {
+  public function __construct($url, $key) {
     if(empty($url) || empty($key))
       throw new \Exception('URL and key cannot be empty');
     $this->url = $url;
@@ -44,8 +42,7 @@ class MCRequest
    * @param string $paramValue value of the parameter
    * @throws \Exception if the parameters passed are incorrect
    */
-  public function addParam($paramName, $paramValue)
-  {
+  public function addParam($paramName, $paramValue) {
     if(empty($paramName))
       throw new \Exception('paramName cannot be empty');
     $this->params[$paramName] = $paramValue;
@@ -134,8 +131,7 @@ class MCRequest
    * Get the url of the request
    * @return string with the url
    */
-  public function getUrl()
-  {
+  public function getUrl() {
     return $this->url;
   }
 
@@ -144,8 +140,7 @@ class MCRequest
    * Set a new URL
    * @param string $url
    */
-  public function setUrl($url)
-  {
+  public function setUrl($url) {
     $this->url = $url;
   }
 
@@ -154,8 +149,7 @@ class MCRequest
    * Get the params attribute
    * @return array
    */
-  public function getParams()
-  {
+  public function getParams() {
     return $this->params;
   }
 
@@ -164,8 +158,7 @@ class MCRequest
    * Get the timeout value
    * @return integer
    */
-  public function getTimeout()
-  {
+  public function getTimeout() {
     return $this->timeout;
   }
 
@@ -174,12 +167,8 @@ class MCRequest
    * Set a new timeout value
    * @param integer $timeout
    */
-  public function setTimeout($timeout)
-  {
+  public function setTimeout($timeout) {
     $this->timeout = $timeout;
   }
-
-
 }
-
 ?>
