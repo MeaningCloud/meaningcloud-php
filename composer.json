@@ -1,6 +1,17 @@
 {
     "name": "meaningcloud/meaningcloud-php",
     "description": "MeaningCloud's official PHP client",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://www.meaningcloud.com",
+    "keywords": [
+      "php",
+      "MeaningCloud",
+      "text-analytics"
+    ],
+    "support": {
+        "email": "support@meaningcloud.com"
+    },
     "authors": [
         {
             "name": "MeaningCloud Support Team",
@@ -11,6 +22,10 @@
         "psr-4": {
             "MeaningCloud\\": "src/"
         }
+    },
+    "require": {
+        "php": "^7.0",
+        "ext-curl": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.4"
