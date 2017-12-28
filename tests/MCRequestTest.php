@@ -132,4 +132,29 @@ class MCRequestTest extends TestCase {
     $this->assertNotNull($response);
     $this->assertNotNull($response->getResponse());
   }
+
+  /**
+   * @depends testConstruct
+   * @param MCRequest $request
+   */
+  public function testSendRequestExtraHeaders($request) {
+    $extraHeaders = ["Accept: application/json"];
+    $response = $request->sendRequest($extraHeaders);
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
+
+
+
+  /**
+   * @depends testConstruct
+   * @param MCRequest $request
+   */
+  public function testSetURL($request) {
+    $url = 'https://myinstance.meaningcloud.com';
+    $request->setURL($url);
+    $this->assertEquals($url, $request->getUrl());
+  }
+
+
 }
