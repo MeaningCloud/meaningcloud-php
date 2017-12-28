@@ -71,7 +71,7 @@ class MCRequest {
    * @param string $txt
    */
   public function setContentTxt($txt) {
-    $this->setContent('txt', $txt);
+    $this->setContent(self::CONTENT_TYPE_TXT, $txt);
   }
 
 
@@ -80,7 +80,7 @@ class MCRequest {
    * @param $url
    */
   public function setContentUrl($url) {
-    $this->setContent('url', $url);
+    $this->setContent(self::CONTENT_TYPE_URL, $url);
   }
 
 
@@ -89,7 +89,7 @@ class MCRequest {
    * @param $file
    */
   public function setContentFile($file) {
-    $this->setContent('doc', $file);
+    $this->setContent(self::CONTENT_TYPE_FILE, $file);
   }
 
 
