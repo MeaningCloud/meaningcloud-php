@@ -92,5 +92,14 @@ class MCResponse {
       unset($results['status']);
     return $results;
   }
+
+
+  /**
+   * Returns the response from de API
+   * @return string
+   */
+  public function getResponse() {
+    return $this->response;
+  }
 }
 ?>
