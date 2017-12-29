@@ -1,13 +1,14 @@
 {
     "name": "meaningcloud/meaningcloud-php",
-    "description": "MeaningCloud's official PHP client",
+    "description": "MeaningCloud's official PHP SDK",
     "type": "library",
     "license": "MIT",
     "homepage": "https://www.meaningcloud.com",
     "keywords": [
       "php",
       "MeaningCloud",
-      "text analytics"
+      "text analytics",
+      "nlp"
     ],
     "support": {
         "email": "support@meaningcloud.com"
