@@ -8,9 +8,11 @@ namespace MeaningCloud;
 
 class MCResponse {
 
-  /** @var  string */
-  private $response; //associative array with the response
+  /** @var  array */
+  protected $response; //associative array with the response
 
+  /** @var  string */
+  protected $strResponse; //string response
 
   /**
    * MCResponse constructor
@@ -20,6 +22,7 @@ class MCResponse {
   public function __construct($response) {
     if(empty($response))
       throw new \Exception("The request sent did not return a response");
+    $this->strResponse = $response;
     $this->response = json_decode($response, true);
   }
 
@@ -100,6 +103,14 @@ class MCResponse {
    */
   public function getResponse() {
     return $this->response;
+  }
+
+  /**
+   * Returns the response from de API as a string
+   * @return string
+   */
+  public function getStrResponse() {
+    return $this->strResponse;
   }
 }
 ?>

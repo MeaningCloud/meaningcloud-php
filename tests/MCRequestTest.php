@@ -12,7 +12,8 @@ use PHPUnit\Framework\TestCase;
 
 class MCRequestTest extends TestCase {
 
-  const URL = 'https://api.meaningcloud.com/lang-2.0';
+  const SERVER = 'https://api.meaningcloud.com/';
+  const URL = self::SERVER.'lang-2.0';
   const KEY = 'MY_KEY';
   const TIMEOUT_DEFAULT = 60;
   const RESOURCES_DIR = __DIR__.'/resources/';
@@ -128,10 +129,12 @@ class MCRequestTest extends TestCase {
    * @param MCRequest $request
    */
   public function testSendRequest($request) {
-    $response = $request->sendRequest();
+    $strResponse = $request->sendRequest();
+    $response = new MCResponse($strResponse);
     $this->assertNotNull($response);
     $this->assertNotNull($response->getResponse());
   }
+
 
   /**
    * @depends testConstruct
@@ -139,11 +142,62 @@ class MCRequestTest extends TestCase {
    */
   public function testSendRequestExtraHeaders($request) {
     $extraHeaders = ["Accept: application/json"];
-    $response = $request->sendRequest($extraHeaders);
+    $strResponse = $request->sendRequest($extraHeaders);
+    $response = new MCResponse($strResponse);
     $this->assertNotNull($response);
     $this->assertNotNull($response->getResponse());
   }
 
+
+  public function testSendTopicsRequest() {
+    $request = new MCRequest(self::SERVER.'topics-2.0', self::KEY);
+    $response = $request->sendTopicsRequest('en', 'a');
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
+
+
+  public function testSendTopicsRequestExtraHeaders() {
+    $request = new MCRequest(self::SERVER.'topics-2.0', self::KEY);
+    $extraHeaders = ["Accept: application/json"];
+    $response = $request->sendTopicsRequest('en', 'a', $extraHeaders);
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
+
+
+  public function testSendClassRequest() {
+    $request = new MCRequest(self::SERVER.'class-2.0', self::KEY);
+    $response = $request->sendClassRequest('IPTC_en');
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
+
+
+  public function testSendClassRequestExtraHeaders() {
+    $request = new MCRequest(self::SERVER.'class-2.0', self::KEY);
+    $extraHeaders = ["Accept: application/json"];
+    $response = $request->sendClassRequest('IPTC_en', $extraHeaders);
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
+
+
+  public function testSendSentimentRequest() {
+    $request = new MCRequest(self::SERVER.'sentiment-2.1', self::KEY);
+    $response = $request->sendSentimentRequest('en', 'general');
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
+
+
+  public function testSendSentimentRequestExtraHeaders() {
+    $request = new MCRequest(self::SERVER.'sentiment-2.1', self::KEY);
+    $extraHeaders = ["Accept: application/json"];
+    $response = $request->sendSentimentRequest('en', 'general', $extraHeaders);
+    $this->assertNotNull($response);
+    $this->assertNotNull($response->getResponse());
+  }
 
 
   /**
@@ -155,6 +209,5 @@ class MCRequestTest extends TestCase {
     $request->setURL($url);
     $this->assertEquals($url, $request->getUrl());
   }
-
 
 }

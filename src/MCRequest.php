@@ -58,7 +58,7 @@ class MCRequest {
   private function setContent($type, $value) {
     if(in_array($type, [self::CONTENT_TYPE_TXT, self::CONTENT_TYPE_URL, self::CONTENT_TYPE_FILE])) {
       if($type == self::CONTENT_TYPE_FILE)
-        $this->addParam('doc', curl_file_create(realpath($value),'txt/plain'));
+        $this->addParam('doc', curl_file_create(realpath($value)));
       else
         $this->addParam($type, $value);
     }
@@ -94,12 +94,68 @@ class MCRequest {
 
 
   /**
+   * Sends request to the Topic Extraction API
+   *
+   * @param string $lang language of the text
+   * @param string $topicType type of topics to extract
+   * @param array $otherParams other parameters to send
+   * @param array $extraHeaders
+   * @return MCTopicsResponse
+   */
+  public function sendTopicsRequest($lang, $topicType, $otherParams = array(), $extraHeaders = array()) {
+    $this->addParam('lang', $lang);
+    $this->addParam('tt', $topicType);
+    array_walk($otherParams, [$this,'addParam']);
+
+    $response = $this->sendRequest($extraHeaders);
+    return new MCTopicsResponse($response);
+  }
+
+
+  /**
+   * Sends request to the Text Classification API
+   *
+   * @param string $model classification model to use
+   * @param array $otherParams
+   * @param array $extraHeaders
+   * @return MCClassResponse
+   */
+  public function sendClassRequest($model, $otherParams = array(), $extraHeaders = array()) {
+    $this->addParam('model', $model);
+    array_walk($otherParams, [$this, 'addParam']);
+
+    $response = $this->sendRequest($extraHeaders);
+    return new MCClassResponse($response);
+  }
+
+
+  /**
+   * Sends request to the Topic Extraction API
+   *
+   * @param string $lang language of the text
+   * @param string $model sentiment model to use
+   * @param array $otherParams other parameters to send
+   * @param array $extraHeaders
+   * @return MCSentimentResponse
+   */
+  public function sendSentimentRequest($lang, $model, $otherParams = array(), $extraHeaders = array()) {
+    $this->addParam('lang', $lang);
+    $this->addParam('model', $model);
+    array_walk($otherParams, [$this, 'addParam']);
+
+    $response = $this->sendRequest($extraHeaders);
+    return new MCSentimentResponse($response);
+  }
+
+
+
+  /**
    * Sends a request to the URL specified and returns a response only if the HTTP code returned is OK
    *
    * @param array $extraHeaders allows to configure additional headers in the request
    * @return MCResponse object set to NULL if there is an error
    */
-  public function sendRequest($extraHeaders=array()) {
+  public function sendRequest($extraHeaders = array()) {
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $this->url);
     curl_setopt($curl, CURLOPT_HEADER, 1);
@@ -119,7 +175,7 @@ class MCRequest {
     $result = curl_exec($curl);
     $info = curl_getinfo($curl);
     curl_close($curl);
-    $response = new MCResponse(substr($result, $info['header_size']));
+    $response = substr($result, $info['header_size']);
     return $response;
   } // sendRequest
 

@@ -7,36 +7,59 @@
 require_once(__DIR__.'/../vendor/autoload.php');
 
 use MeaningCloud\MCRequest;
+use MeaningCloud\MCResponse;
 
 $server = 'https://api.meaningcloud.com/';
 $license_key = '<< your license key >>'; // your license key (https://www.meaningcloud.com/developer/account/subscription)
 
-try {
-  // We are going to make a request to the Topics Extraction API
-  $mc = new MCRequest($server.'topics-2.0', $license_key);
+$text = 'London is a very nice city but I also love Madrid.';
 
-  // We add the required parameters of the API we are using
-  $mc->addParam('lang', 'en'); //languages -> English
-  $mc->addParam('tt', 'e'); //topic type -> entities
+try {
+  // We are going to make a request to the Language Identification API
+  $mc = new MCRequest($server.'lang-2.0', $license_key);
 
   //We set the content we want to analyze
-  $mc->setContentTxt('London is a very nice city but I also love Madrid.');
+  $mc->setContentTxt($text);
   //$mc->setContentUrl('https://en.wikipedia.org/wiki/Star_Trek'); //if we want to analyze an URL
-  $response = $mc->sendRequest();
+  $response = new MCResponse($mc->sendRequest());
 
-  // if there are no errors in the request, we print the output
+  // if there are no errors in the request, we will use the language detected to make a request to Sentiment and Topics
   if($response->isSuccessful()) {
-    echo "\nThe request finished successfully!\n";
+    echo "\nThe request to 'Language Identification' finished successfully!\n";
 
     $results = $response->getResults();
-    if(isset($results['entity_list'])) {
-      echo "Entities detected (".sizeof($results['entity_list'])."):\n";
-      foreach ($results['entity_list'] as $entity) {
-        echo "\t".$entity['form'].' --> '.(isset($entity['sementity']['type']) ? $entity['sementity']['type'] : 'Unknown')."\n";
+    if(isset($results['language_list']) && !empty($results['language_list'])) {
+      $language = $results['language_list'][0]['language'];
+      echo "\tLanguage detected: ".$results['language_list'][0]['name'].' ('.$language.")\n";
+
+      // We are going to make a request to the Topics Extraction API
+      $mc_topics = new MCRequest($server.'topics-2.0', $license_key);
+      // We set the content we want to analyze
+      $mc_topics->setContentTxt($text);
+
+      // We add the required parameters of the API we are using
+      $response = $mc_topics->sendTopicsRequest($language, 'e'); //language detected, topic type -> entities
+
+      // if there are no errors in the request, we print the output
+      if($response->isSuccessful()) {
+        echo "\nThe request to 'Topics Extraction' finished successfully!\n";
+
+        $entities = $response->getEntities();
+        if(!empty($entities)) {
+          echo "\tEntities detected (".sizeof($entities)."):\n";
+          foreach ($entities as $entity) {
+            echo "\t\t".$response->getTopicForm($entity).' --> '.$response->getTypeLastNode($response->getOntoType($entity))."\n";
+          }
+        }
+      } else {
+        echo "\nOh no! There was the following error: ".$response->getStatusMsg()."\n";
       }
     }
   } else {
-    echo "\nOh no! There was the following error: ".$response->getStatusMsg()."\n";
+    if(is_null($response->getResponse()))
+      echo "\nOh no! The request sent did not return a Json\n";
+    else
+      echo "\nOh no! There was the following error: ".$response->getStatusMsg()."\n";
   }
 } catch (Exception $e) {
   echo "\nEXCEPTION: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().')'."\n\n";
