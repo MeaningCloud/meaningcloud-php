@@ -302,7 +302,7 @@ class MCSentimentResponseTest extends TestCase {
       array('NEU', 'neutral'),
       array('N', 'negative'),
       array('N+', 'strong negative'),
-      array('NONE', 'without sentiment')
+      array('NONE', 'no sentiment')
     );
   }
 
