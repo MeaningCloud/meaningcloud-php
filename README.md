@@ -37,13 +37,9 @@ And we are always available at support@meaningcloud.com
 This SDK currently contains the following:
 
 - **MCRequest**: to easily create a request to any of MeaningCloud's APIS.
-
 - **MCResponse**: models a generic response from the MeaningCloud API.
-
     - **MCTopicsResponse**: models a response from the Topic Extraction API, providing auxiliary functions to work with the response, extracting the different types of topics and some of the most used fields in them.
-
     - **MCClassResponse**: models a response from the Text Classification API, providing auxiliary functions to work with the response and extract the different fields in each category.
-
     - **MCSentimentResponse**: models a response from the Sentiment Analysis API, providing auxiliary functions to work with the response and extract the sentiment detected at different levels and for different elements.
     
     
