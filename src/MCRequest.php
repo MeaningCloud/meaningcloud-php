@@ -156,6 +156,7 @@ class MCRequest {
    * @return MCResponse object set to NULL if there is an error
    */
   public function sendRequest($extraHeaders = array()) {
+    $this->addParam('src', 'mc-php');
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $this->url);
     curl_setopt($curl, CURLOPT_HEADER, 1);
