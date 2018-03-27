@@ -1,3 +1,7 @@
+## 1.1.1
+
+- New response added for the Lemmatization, PoS and Parsing API with functions to easily lemmatize and extract PoS tagging.
+- MCRequest now includes a function to call the Lemmatization, PoS and Parsing API directly.
 
 ## 1.1
 

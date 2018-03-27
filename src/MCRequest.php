@@ -147,6 +147,21 @@ class MCRequest {
     return new MCSentimentResponse($response);
   }
 
+  /**
+   * Sends request to the Lemmatization, PoS and Parsing API
+   *
+   * @param string $lang language of the text
+   * @param array $otherParams other parameters to send
+   * @param array $extraHeaders
+   * @return MCParserResponse
+   */
+  public function sendParserRequest($lang, $otherParams = array(), $extraHeaders = array()) {
+    $this->addParam('lang', $lang);
+    array_walk($otherParams, [$this, 'addParam']);
+
+    $response = $this->sendRequest($extraHeaders);
+    return new MCParserResponse($response);
+  }
 
 
   /**
