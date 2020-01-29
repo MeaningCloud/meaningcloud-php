@@ -135,9 +135,19 @@ class MCTopicsResponse extends MCResponse {
     return $lastNode;
   }
 
+  /**
+   * Obtains the "dictionary" an entity/concept comes from
+   *
+   * @param $topic
+   * @return bool true if the field dictionary is in the topic
+   */
+  public function getDictionary($topic) {
+    return (isset($topic['dictionary']) ? $topic['dictionary'] : '');
+  }
+
 
   /**
-   * Checks the field "dictionary" to check if a entity/concept comes from a user dictionary
+   * Checks the field "dictionary" to check if a/n entity/concept comes from a user dictionary
    *
    * @param $topic
    * @return bool true if the field dictionary is in the topic

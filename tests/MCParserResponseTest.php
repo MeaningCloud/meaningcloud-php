@@ -39,7 +39,7 @@ class MCParserResponseTest extends TestCase {
    * @param MCParserResponse $response
    */
   public function testGetLemmatization($response) {
-    $expectedResult = '{"London":[{"lemma":"London","pos":"NP"},{"lemma":"London","pos":"NP"}],"is":[{"lemma":"be","pos":"VI"}],"a":[{"lemma":"a","pos":"QD"}],"nice":[{"lemma":"nice","pos":"AP"}],"city":[{"lemma":"city","pos":"NC"}],".":[{"lemma":".","pos":"1D"}]}';
+    $expectedResult = '[[{"form":"London","lemma":"London","pos":"NP"}],[{"form":"is","lemma":"be","pos":"VI"}],[{"form":"a","lemma":"a","pos":"QD"}],[{"form":"nice","lemma":"nice","pos":"AP"}],[{"form":"city","lemma":"city","pos":"NC"}],[{"form":".","lemma":".","pos":"1D"}]]';
     $lemmas = $response->getLemmatization();
     $this->assertNotEmpty($lemmas);
     //London is a nice city
@@ -53,23 +53,9 @@ class MCParserResponseTest extends TestCase {
    * @param MCParserResponse $response
    */
   public function testGetCompleteLemmatization($response) {
-    $expectedResult = '{"London":[{"lemma":"London","pos":"NP-S-N-"},{"lemma":"London","pos":"NPUU-N-"}],"is":[{"lemma":"be","pos":"VI-S3PSA-N-N9"}],"a":[{"lemma":"a","pos":"QD-SPN9"}],"nice":[{"lemma":"nice","pos":"AP-N6"}],"city":[{"lemma":"city","pos":"NC-S-N6"}],".":[{"lemma":".","pos":"1D--"}]}';
+    $expectedResult = '[[{"form":"London","lemma":"London","pos":"NP-S-N-"},{"form":"London","lemma":"London","pos":"NPUU-N-"}],[{"form":"is","lemma":"be","pos":"VI-S3PSA-N-N9"}],[{"form":"a","lemma":"a","pos":"QD-SPN9"}],[{"form":"nice","lemma":"nice","pos":"AP-N6"}],[{"form":"city","lemma":"city","pos":"NC-S-N6"}],[{"form":".","lemma":".","pos":"1D--"}]]';
     $lemmas = $response->getLemmatization(true);
     $this->assertNotEmpty($lemmas, "Lemmas is empty");
-    //London is a nice city
-    $this->assertTrue(is_array($lemmas), 'The output is not an array');
-    $this->assertEquals($expectedResult, json_encode($lemmas));
-  }
-
-  /**
-   * @depends testConstruct
-   *
-   * @param MCParserResponse $response
-   */
-  public function testGetFilteredLemmatization($response) {
-    $expectedResult = '{"London":[{"lemma":"London","pos":"NP"},{"lemma":"London","pos":"NP"}],"is":[{"lemma":"be","pos":"VI"}],"a":[{"lemma":"a","pos":"QD"}],"nice":[{"lemma":"nice","pos":"AP"}],"city":[{"lemma":"city","pos":"NC"}],".":[{"lemma":".","pos":"1D"}]}';
-    $lemmas = $response->getLemmatization();
-    $this->assertNotEmpty($lemmas, "Lemmas is empty!");
     //London is a nice city
     $this->assertTrue(is_array($lemmas), 'The output is not an array');
     $this->assertEquals($expectedResult, json_encode($lemmas));
@@ -88,7 +74,7 @@ class MCParserResponseTest extends TestCase {
     $lemmas = $responseWithNoLemmas->getLemmatization($completeTag);
     $this->assertNotEmpty($lemmas, "Lemmas is empty");
     $this->assertTrue(is_array($lemmas), 'The output is not an array');
-    $this->assertEquals('{"ajsahdsa":[]}', json_encode($lemmas));
+    $this->assertEquals('[["ajsahdsa","",""]]', json_encode($lemmas));
   }
 
 
