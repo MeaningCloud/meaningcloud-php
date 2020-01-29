@@ -30,18 +30,28 @@ class MCParserResponse extends MCResponse {
    */
   public function getLemmatization($fullPOSTag = false) {
     $leaves = $this->getTreeLeaves();
+
     $lemmas = array();
     foreach($leaves as $leaf) {
       $analyses = array();
+      $glued_analyses = array();
       if(isset($leaf['analysis_list'])) {
         foreach($leaf['analysis_list'] as $analysis) {
-          $analyses[] = array(
+          $new_analysis = array(
+            'form' => $leaf['form'],
             'lemma' => $analysis['lemma'],
             'pos' => ($fullPOSTag) ? $analysis['tag'] : substr($analysis['tag'], 0, 2)
           );
+          //we avoid duplicates
+          if(!in_array(implode("", $new_analysis), $glued_analyses)){
+            $analyses[] = $new_analysis;
+            $glued_analyses[] = implode("", $new_analysis);
+          }
         }
+      } else {
+        $analyses = [$leaf['form'], '', ''];
       }
-      $lemmas[$leaf['form']] = $analyses;
+      $lemmas[] = $analyses;
     }
     return $lemmas;
   }

@@ -277,8 +277,6 @@ class MCTopicsResponseTest extends TestCase {
   }
 
 
-
-
   /**
    * @depends testConstruct
    * @depends testGetEntities
@@ -309,6 +307,39 @@ class MCTopicsResponseTest extends TestCase {
     $this->assertEquals($responseWithUD->isUserDefined($responseWithUD->getConcepts()[0]),true);
 
   }
+
+
+  /**
+   * @depends testConstruct
+   * @depends testGetEntities
+   * @depends testGetConcepts
+   * @depends testGetTimeExpressions
+   * @depends testGetMoneyExpressions
+   * @depends testGetQuantityExpressions
+   * @depends testGetOtherExpressions
+   * @depends testGetQuotations
+   * @depends testGetRelations
+   *
+   * @param MCTopicsResponse $response
+   */
+  public function testGetDictionary($response) {
+
+    $this->assertEmpty($response->getDictionary($response->getEntities()[0]));
+    $this->assertEmpty($response->getDictionary($response->getConcepts()[0]));
+    $this->assertEmpty($response->getDictionary($response->getTimeExpressions()[0]));
+    $this->assertEmpty($response->getDictionary($response->getMoneyExpressions()[0]));
+    $this->assertEmpty($response->getDictionary($response->getQuantityExpressions()[0]));
+    $this->assertEmpty($response->getDictionary($response->getOtherExpressions()[0]));
+    $this->assertEmpty($response->getDictionary($response->getQuotations()[0]));
+    $this->assertEmpty($response->getDictionary($response->getRelations()[0]));
+
+    $responseWithUserDefinedEntities = '{"status":{"code":"0","msg":"OK","credits":"1"},"entity_list":[{"form":"Lincoln Trikru","official_form":"Lincoln","dictionary":"test1","id":"ent_sin_tag","sementity":{"class":"instance","type":"Top&gt;People&gt;Grounders"},"variant_list":[{"form":"Lincoln","inip":"0","endp":"6"}],"relevance":"100"}],"concept_list":[{"form":"dropship","id":"concepto_sin_tag","dictionary":"test1","sementity":{"class":"class"},"variant_list":[{"form":"dropship","inip":"19","endp":"26"}],"relevance":"100"}]}';
+    $responseWithUD = new MCTopicsResponse($responseWithUserDefinedEntities);
+    $this->assertEquals($responseWithUD->getDictionary($responseWithUD->getEntities()[0]), 'test1');
+    $this->assertEquals($responseWithUD->getDictionary($responseWithUD->getConcepts()[0]), 'test1');
+
+  }
+
 
   /**
    * @depends testConstruct
