@@ -14,7 +14,7 @@ class MCClassRequest extends MCRequest {
   private $otherParams = array();
   private $extraHeaders = array();
   private $type = MCRequest::CONTENT_TYPE_TXT;
-  private $hierarchy = 'n'
+  private $hierarchy = 'n';
 
 
   /**
@@ -33,7 +33,13 @@ class MCClassRequest extends MCRequest {
   public function __construct($key, $model, $txt="", $url="", $doc="",
                               $otherParams = array(), $extraHeaders = array(),
                               $server='https://api.meaningcloud.com/',
-                              $hierarchy='n') {
+                              $hierarchy="n", $version="2.0") {
+
+    if($version != '1.1' && $version != '2.0'){
+      echo("Invalid version, only 1.1 and 2.0 are supported, received " . $version);
+      exit();
+    }
+
     if(substr($server, -1) != '/') {
       $server .= '/';
     }
@@ -42,7 +48,9 @@ class MCClassRequest extends MCRequest {
 
     $this->otherParams = $otherParams;
     $this->extraHeaders = $extraHeaders;
-    $this->hierarchy = $hierarchy;
+    if($version == '2.0'){
+      $this->hierarchy = $hierarchy;
+    }
 
     if(!empty($txt)) {
       $this->type = MCRequest::CONTENT_TYPE_TXT;
