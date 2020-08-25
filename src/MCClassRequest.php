@@ -10,10 +10,11 @@ namespace MeaningCloud;
 class MCClassRequest extends MCRequest {
 
 
-  private $endpoint = 'class-1.1';
+  private $endpoint = 'class-2.0';
   private $otherParams = array();
   private $extraHeaders = array();
   private $type = MCRequest::CONTENT_TYPE_TXT;
+  private $hierarchy = 'n'
 
 
   /**
@@ -27,8 +28,12 @@ class MCClassRequest extends MCRequest {
    * @param array $otherParams
    * @param array $extraHeaders
    * @param string $server
+   * @param string $hierarchy
    */
-  public function __construct($key, $model, $txt="", $url="", $doc="", $otherParams = array(), $extraHeaders = array(), $server='https://api.meaningcloud.com/') {
+  public function __construct($key, $model, $txt="", $url="", $doc="",
+                              $otherParams = array(), $extraHeaders = array(),
+                              $server='https://api.meaningcloud.com/',
+                              $hierarchy='n') {
     if(substr($server, -1) != '/') {
       $server .= '/';
     }
@@ -37,6 +42,7 @@ class MCClassRequest extends MCRequest {
 
     $this->otherParams = $otherParams;
     $this->extraHeaders = $extraHeaders;
+    $this->hierarchy = $hierarchy;
 
     if(!empty($txt)) {
       $this->type = MCRequest::CONTENT_TYPE_TXT;
