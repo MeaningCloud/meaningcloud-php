@@ -43,7 +43,7 @@ class MCClassRequest extends MCRequest {
     if(substr($server, -1) != '/') {
       $server .= '/';
     }
-    $urlAPI = $server.$this->endpoint;
+    $urlAPI = $server."class-".$version;
     parent::__construct($urlAPI, $key);
 
     $this->otherParams = $otherParams;
