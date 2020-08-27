@@ -29,6 +29,7 @@ class MCClassRequest extends MCRequest {
    * @param array $extraHeaders
    * @param string $server
    * @param string $hierarchy
+   * @param string $version
    */
   public function __construct($key, $model, $txt="", $url="", $doc="",
                               $otherParams = array(), $extraHeaders = array(),
