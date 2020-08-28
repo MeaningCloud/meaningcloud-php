@@ -9,11 +9,10 @@ namespace MeaningCloud;
 
 use PHPUnit\Framework\TestCase;
 
-
 class MCClassRequestTest extends TestCase {
 
   const SERVER = 'https://api.meaningcloud.com/';
-  const URL = self::SERVER.'class-1.1';
+  const URL = self::SERVER.'class-2.0';
   const KEY = 'MY_KEY';
   const TIMEOUT_DEFAULT = 60;
   const RESOURCES_DIR = __DIR__.'/resources/';
