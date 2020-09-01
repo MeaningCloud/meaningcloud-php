@@ -34,24 +34,17 @@ class MCClassRequest extends MCRequest {
   public function __construct($key, $model, $txt="", $url="", $doc="",
                               $otherParams = array(), $extraHeaders = array(),
                               $server='https://api.meaningcloud.com/',
-                              $hierarchy="n", $version="2.0") {
-
-    if($version != '1.1' && $version != '2.0'){
-      echo("Invalid version, only 1.1 and 2.0 are supported, received " . $version);
-      exit();
-    }
+                              $hierarchy="n") {
 
     if(substr($server, -1) != '/') {
       $server .= '/';
     }
-    $urlAPI = $server."class-".$version;
+    $urlAPI = $server . $this->endpoint;
     parent::__construct($urlAPI, $key);
 
     $this->otherParams = $otherParams;
     $this->extraHeaders = $extraHeaders;
-    if($version == '2.0'){
-      $this->hierarchy = $hierarchy;
-    }
+    $this->hierarchy = $hierarchy;
 
     if(!empty($txt)) {
       $this->type = MCRequest::CONTENT_TYPE_TXT;
