@@ -31,9 +31,8 @@ class MCClassRequest extends MCRequest {
    * @param string $hierarchy
    */
   public function __construct($key, $model, $txt="", $url="", $doc="",
-                              $otherParams = array(), $extraHeaders = array(),
-                              $server='https://api.meaningcloud.com/',
-                              $hierarchy="n") {
+                              $hierarchy="n", $otherParams = array(),
+                              $extraHeaders = array(), $server='https://api.meaningcloud.com/') {
 
     if(substr($server, -1) != '/') {
       $server .= '/';
