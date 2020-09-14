@@ -1,3 +1,12 @@
+## 3.0
+
+### Added
+
+- *MCClassRequest* now supports [Text Classification 2.0] (https://www.meaningcloud.com/developer/text-classification/doc/what-is-text-classification).
+
+### Removed
+- Text Classification 1.1 has been removed in *MCClassRequest* class.
+
 ## 2.0
 
 ### Added
